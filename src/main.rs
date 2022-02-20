@@ -4,11 +4,13 @@ use std::process;
 use std::time::SystemTime;
 use std::time::UNIX_EPOCH;
 
+// How verbose is the output
 enum Verbosity {
     Verbose,
     Quiet,
 }
 
+// What suffix should come after the value
 enum Mode {
     Seconds,
     Milliseconds,
@@ -16,10 +18,20 @@ enum Mode {
     Nanoseconds,
 }
 
+// What should the program do
+enum Action {
+    Help,
+    Print,
+    Version,
+}
+
 fn main() -> Result<(), std::io::Error> {
     // Default to quiet and seconds
     let mut verbosity: Verbosity = Verbosity::Quiet;
     let mut mode: Mode = Mode::Seconds;
+
+    // Default to printing
+    let mut action = Action::Print;
 
     // Default to printing if no args are given
     if env::args().len() == 1 {
@@ -27,30 +39,29 @@ fn main() -> Result<(), std::io::Error> {
         process::exit(0);
     }
 
-    let mut help: bool = false;
-
+    // Match the arguments
     for arg in env::args() {
         match arg.as_str() {
-            "-h" => help = true,
-            "-s" => mode = Mode::Seconds,
-            "-m" => mode = Mode::Milliseconds,
-            "-u" => mode = Mode::Microseconds,
-            "-n" => mode = Mode::Nanoseconds,
-            "-v" => verbosity = Verbosity::Verbose,
+            "-h" | "--help" => action = Action::Help,
+            "-V" | "--version" => action = Action::Version,
+            "-s" | "--seconds" => mode = Mode::Seconds,
+            "-m" | "--milliseconds" => mode = Mode::Milliseconds,
+            "-u" | "--microseconds" => mode = Mode::Microseconds,
+            "-n" | "--nanoseconds" => mode = Mode::Nanoseconds,
+            "-v" | "--verbose" => verbosity = Verbosity::Verbose,
             &_ => (),
         }
     }
 
-    // If -h is *any* flag, print the help menu
-    if help {
-        print_help();
-        Ok(())
-    } else {
-        print_time(verbosity, mode);
-        Ok(())
+    match action {
+        Action::Help => print_help(),
+        Action::Print => print_time(verbosity, mode),
+        Action::Version => print_version(),
     }
+    Ok(())
 }
 
+// Printing the time in a variety of formats
 fn print_time(verbosity: Verbosity, mode: Mode) {
     // Getting the time
     let epoch = match SystemTime::now().duration_since(UNIX_EPOCH) {
@@ -89,6 +100,38 @@ fn print_time(verbosity: Verbosity, mode: Mode) {
     };
 }
 
+// Printing the version number
+fn print_version() {
+    println!("{} version {}", "epoch-get".green(), env!("CARGO_PKG_VERSION").bold());
+}
+
+// Printing the help menu
 fn print_help() {
-    println!("Help goes here! make it colorful, boi");
+    print_version();
+    println!("\n{}", "USAGE:".yellow());
+    println!("\tepoch-get {}", "[OPTIONS]".bold());
+    println!("");
+    println!("{}", "OPTIONS:".yellow());
+    println!("\t{}", "-h, --help".green());
+    println!("\t\tPrint this help menu.");
+    println!("");
+    println!("\t{}", "-V, --version".green());
+    println!("\t\tPrint the program version.");
+    println!("");
+    println!("\t{}", "-v, --verbose".green());
+    println!("\t\tBe verbose when printing the time.");
+    println!("\t\tCan be combined with any of the following.");
+    println!("");
+    println!("\t{} - default", "-s, --seconds".green());
+    println!("\t\tPrint the value in seconds.");
+    println!("");
+    println!("\t{}", "-m, --milliseconds".green());
+    println!("\t\tPrint the value in milliseconds.");
+    println!("");
+    println!("\t{}", "-u, --microseconds".green());
+    println!("\t\tPrint the value in microseconds.");
+    println!("");
+    println!("\t{}", "-n, --nanoseconds".green());
+    println!("\t\tPrint the value in nanoseconds.");
+    println!("");
 }
