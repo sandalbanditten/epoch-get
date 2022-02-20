@@ -102,7 +102,11 @@ fn print_time(verbosity: Verbosity, mode: Mode) {
 
 // Printing the version number
 fn print_version() {
-    println!("{} version {}", "epoch-get".green(), env!("CARGO_PKG_VERSION").bold());
+    println!(
+        "{} version {}",
+        "epoch-get".green(),
+        env!("CARGO_PKG_VERSION").bold()
+    );
 }
 
 // Printing the help menu
