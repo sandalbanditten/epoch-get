@@ -69,9 +69,7 @@ fn print_time(verbosity: Verbosity, mode: Mode) {
         Err(_) => panic!("{} Unable to get system time!", "Error:".red().bold()),
     };
 
-    // rustc complains - no idea why
-    #[allow(unused_assignments)]
-    let mut suffix = String::from("");
+    let suffix: String;
     // Redefining epoch and suffix as seconds etc.
     let epoch: u128 = match mode {
         Mode::Seconds => {
