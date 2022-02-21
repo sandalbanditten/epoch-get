@@ -27,8 +27,8 @@ enum Action {
 
 fn main() -> Result<(), std::io::Error> {
     // Default to quiet and seconds
-    let mut verbosity: Verbosity = Verbosity::Quiet;
-    let mut mode: Mode = Mode::Seconds;
+    let mut verbosity = Verbosity::Quiet;
+    let mut mode = Mode::Seconds;
 
     // Default to printing
     let mut action = Action::Print;
@@ -44,11 +44,11 @@ fn main() -> Result<(), std::io::Error> {
         match arg.as_str() {
             "-h" | "--help" => action = Action::Help,
             "-V" | "--version" => action = Action::Version,
+            "-v" | "--verbose" => verbosity = Verbosity::Verbose,
             "-s" | "--seconds" => mode = Mode::Seconds,
             "-m" | "--milliseconds" => mode = Mode::Milliseconds,
             "-u" | "--microseconds" => mode = Mode::Microseconds,
             "-n" | "--nanoseconds" => mode = Mode::Nanoseconds,
-            "-v" | "--verbose" => verbosity = Verbosity::Verbose,
             &_ => (),
         }
     }
@@ -56,7 +56,7 @@ fn main() -> Result<(), std::io::Error> {
     match action {
         Action::Help => print_help(),
         Action::Print => print_time(verbosity, mode),
-        Action::Version => print_version(),
+        Action::Version => print_version(verbosity),
     }
     Ok(())
 }
@@ -99,41 +99,44 @@ fn print_time(verbosity: Verbosity, mode: Mode) {
 }
 
 // Printing the version number
-fn print_version() {
-    println!(
-        "{} version {}",
-        "epoch-get".green(),
-        env!("CARGO_PKG_VERSION").bold()
-    );
+fn print_version(verbosity: Verbosity) {
+    match verbosity {
+        Verbosity::Quiet => println!("{}", env!("CARGO_PKG_VERSION")),
+        Verbosity::Verbose => println!(
+            "{} version {}",
+            "epoch-get".green(),
+            env!("CARGO_PKG_VERSION").bold()
+        ),
+    }
 }
 
 // Printing the help menu
 fn print_help() {
-    print_version();
+    print_version(Verbosity::Verbose);
     println!("\n{}", "USAGE:".yellow());
     println!("\tepoch-get {}", "[OPTIONS]".bold());
-    println!("");
+    println!();
     println!("{}", "OPTIONS:".yellow());
     println!("\t{}", "-h, --help".green());
     println!("\t\tPrint this help menu.");
-    println!("");
+    println!();
     println!("\t{}", "-V, --version".green());
     println!("\t\tPrint the program version.");
-    println!("");
+    println!();
     println!("\t{}", "-v, --verbose".green());
     println!("\t\tBe verbose when printing the time.");
     println!("\t\tCan be combined with any of the following.");
-    println!("");
+    println!();
     println!("\t{} - default", "-s, --seconds".green());
     println!("\t\tPrint the value in seconds.");
-    println!("");
+    println!();
     println!("\t{}", "-m, --milliseconds".green());
     println!("\t\tPrint the value in milliseconds.");
-    println!("");
+    println!();
     println!("\t{}", "-u, --microseconds".green());
     println!("\t\tPrint the value in microseconds.");
-    println!("");
+    println!();
     println!("\t{}", "-n, --nanoseconds".green());
     println!("\t\tPrint the value in nanoseconds.");
-    println!("");
+    println!();
 }
