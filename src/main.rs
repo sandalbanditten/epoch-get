@@ -120,7 +120,7 @@ fn print_help() {
     println!();
     println!("\t{}", "-v, --verbose".green());
     println!("\t\tBe verbose when printing the time.");
-    println!("\t\tCan be combined with any of the following.");
+    println!("\t\tCan be combined with any of the following arguments:");
     println!();
     println!("\t{} - default", "-s, --seconds".green());
     println!("\t\tPrint the value in seconds.");
