@@ -1,8 +1,8 @@
 use colored::Colorize;
-use std::env;
-use std::process;
-use std::time::SystemTime;
-use std::time::UNIX_EPOCH;
+use std::{
+    env, process,
+    time::{SystemTime, UNIX_EPOCH},
+};
 
 // How verbose is the output
 enum Verbosity {
@@ -26,6 +26,8 @@ enum Action {
 }
 
 fn main() -> Result<(), std::io::Error> {
+    // Get the args
+    let args = env::args();
     // Default to quiet and seconds
     let mut verbosity = Verbosity::Quiet;
     let mut mode = Mode::Seconds;
@@ -34,13 +36,13 @@ fn main() -> Result<(), std::io::Error> {
     let mut action = Action::Print;
 
     // Default to printing if no args are given
-    if env::args().len() == 1 {
+    if args.len() == 1 {
         print_time(verbosity, mode);
         process::exit(0);
     }
 
     // Match the arguments
-    for arg in env::args() {
+    for arg in args {
         match arg.as_str() {
             "-h" | "--help" => action = Action::Help,
             "-V" | "--version" => action = Action::Version,
