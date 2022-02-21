@@ -1,6 +1,6 @@
 use colored::Colorize;
 use std::{
-    env, process,
+    env,
     time::{SystemTime, UNIX_EPOCH},
 };
 
@@ -28,29 +28,21 @@ enum Action {
 fn main() -> Result<(), std::io::Error> {
     // Get the args
     let args = env::args();
-    // Default to quiet and seconds
+    // Default to quiet, seconds and printing
     let mut verbosity = Verbosity::Quiet;
     let mut mode = Mode::Seconds;
-
-    // Default to printing
     let mut action = Action::Print;
-
-    // Default to printing if no args are given
-    if args.len() == 1 {
-        print_time(verbosity, mode);
-        process::exit(0);
-    }
 
     // Match the arguments
     for arg in args {
         match arg.as_str() {
-            "-h" | "--help" => action = Action::Help,
-            "-V" | "--version" => action = Action::Version,
             "-v" | "--verbose" => verbosity = Verbosity::Verbose,
             "-s" | "--seconds" => mode = Mode::Seconds,
-            "-m" | "--milliseconds" => mode = Mode::Milliseconds,
-            "-u" | "--microseconds" => mode = Mode::Microseconds,
-            "-n" | "--nanoseconds" => mode = Mode::Nanoseconds,
+            "-m" | "-ms" | "--milliseconds" => mode = Mode::Milliseconds,
+            "-u" | "-us" | "--microseconds" => mode = Mode::Microseconds,
+            "-n" | "-ns" | "--nanoseconds" => mode = Mode::Nanoseconds,
+            "-h" | "--help" => action = Action::Help,
+            "-V" | "--version" => action = Action::Version,
             &_ => (),
         }
     }
@@ -77,25 +69,25 @@ fn print_time(verbosity: Verbosity, mode: Mode) {
         Mode::Seconds => {
             suffix = String::from(" seconds");
             epoch.as_secs() as u128
-        }
+        },
         Mode::Milliseconds => {
             suffix = String::from(" milliseconds");
             epoch.as_millis()
-        }
+        },
         Mode::Microseconds => {
             suffix = String::from(" microseconds");
             epoch.as_micros()
-        }
+        },
         Mode::Nanoseconds => {
             suffix = String::from(" nanoseconds");
             epoch.as_nanos()
-        }
+        },
     };
 
     match verbosity {
         Verbosity::Verbose => {
             println!("The Unix Epoch, 1970-01-01 00:00:00 UTC was {epoch}{suffix} ago!")
-        }
+        },
         Verbosity::Quiet => println!("{epoch}"),
     };
 }
@@ -133,13 +125,13 @@ fn print_help() {
     println!("\t{} - default", "-s, --seconds".green());
     println!("\t\tPrint the value in seconds.");
     println!();
-    println!("\t{}", "-m, --milliseconds".green());
+    println!("\t{}", "-m, -ms, --milliseconds".green());
     println!("\t\tPrint the value in milliseconds.");
     println!();
-    println!("\t{}", "-u, --microseconds".green());
+    println!("\t{}", "-u, -us, --microseconds".green());
     println!("\t\tPrint the value in microseconds.");
     println!();
-    println!("\t{}", "-n, --nanoseconds".green());
+    println!("\t{}", "-n, -ns, --nanoseconds".green());
     println!("\t\tPrint the value in nanoseconds.");
     println!();
 }
