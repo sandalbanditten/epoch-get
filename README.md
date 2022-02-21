@@ -8,7 +8,7 @@ I am extremely new at rust programming, and somewhat new at programming in gener
 
 ## Version
 
-This is version 0.2.0
+This is version 0.2.1
 
 ## Usage
 
