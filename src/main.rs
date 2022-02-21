@@ -65,7 +65,7 @@ fn main() -> Result<(), std::io::Error> {
 fn print_time(verbosity: Verbosity, mode: Mode) {
     // Getting the time
     let epoch = match SystemTime::now().duration_since(UNIX_EPOCH) {
-        Ok(n) => n,
+        Ok(duration) => duration,
         Err(_) => panic!("{} Unable to get system time!", "Error:".red().bold()),
     };
 
@@ -113,7 +113,8 @@ fn print_version(verbosity: Verbosity) {
 // Printing the help menu
 fn print_help() {
     print_version(Verbosity::Verbose);
-    println!("\n{}", "USAGE:".yellow());
+    println!();
+    println!("{}", "USAGE:".yellow());
     println!("\tepoch-get {}", "[OPTIONS]".bold());
     println!();
     println!("{}", "OPTIONS:".yellow());
