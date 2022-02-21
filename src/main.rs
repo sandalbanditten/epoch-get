@@ -69,25 +69,25 @@ fn print_time(verbosity: Verbosity, mode: Mode) {
         Mode::Seconds => {
             suffix = String::from(" seconds");
             epoch.as_secs() as u128
-        },
+        }
         Mode::Milliseconds => {
             suffix = String::from(" milliseconds");
             epoch.as_millis()
-        },
+        }
         Mode::Microseconds => {
             suffix = String::from(" microseconds");
             epoch.as_micros()
-        },
+        }
         Mode::Nanoseconds => {
             suffix = String::from(" nanoseconds");
             epoch.as_nanos()
-        },
+        }
     };
 
     match verbosity {
         Verbosity::Verbose => {
             println!("The Unix Epoch, 1970-01-01 00:00:00 UTC was {epoch}{suffix} ago!")
-        },
+        }
         Verbosity::Quiet => println!("{epoch}"),
     };
 }
