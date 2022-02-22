@@ -99,7 +99,7 @@ fn print_version(verbosity: Verbosity) {
         Verbosity::Verbose => println!(
             "{}{}",
             "epoch-get ".green(),
-            env!("CARGO_PKG_VERSION").bold()
+            env!("CARGO_PKG_VERSION")
         ),
     }
 }
@@ -109,28 +109,28 @@ fn print_help() {
     print_version(Verbosity::Verbose);
     println!();
     println!("{}", "USAGE:".yellow());
-    println!("\tepoch-get {}", "[OPTIONS]".bold());
+    println!("    epoch-get [OPTIONS]");
     println!();
     println!("{}", "OPTIONS:".yellow());
-    println!("\t{}", "-h, --help".green());
-    println!("\t\tPrint this help menu.");
+    println!("    {}", "-h, --help".green());
+    println!("            Print this help menu.");
     println!();
-    println!("\t{}", "-V, --version".green());
-    println!("\t\tPrint the program version.");
+    println!("    {}", "-V, --version".green());
+    println!("            Print the program version.");
     println!();
-    println!("\t{}", "-v, --verbose".green());
-    println!("\t\tBe verbose when printing the time.");
-    println!("\t\tCan be combined with any of the following arguments:");
+    println!("    {}", "-v, --verbose".green());
+    println!("            Be verbose when printing the time.");
+    println!("            Can be combined with any of the following arguments:");
     println!();
-    println!("\t{} - default", "-s, --seconds".green());
-    println!("\t\tPrint the value in seconds.");
+    println!("    {} - default", "-s, --seconds".green());
+    println!("            Print the value in seconds.");
     println!();
-    println!("\t{}", "-m, -ms, --milliseconds".green());
-    println!("\t\tPrint the value in milliseconds.");
+    println!("    {}", "-m, -ms, --milliseconds".green());
+    println!("            Print the value in milliseconds.");
     println!();
-    println!("\t{}", "-u, -us, --microseconds".green());
-    println!("\t\tPrint the value in microseconds.");
+    println!("    {}", "-u, -us, --microseconds".green());
+    println!("            Print the value in microseconds.");
     println!();
-    println!("\t{}", "-n, -ns, --nanoseconds".green());
-    println!("\t\tPrint the value in nanoseconds.");
+    println!("    {}", "-n, -ns, --nanoseconds".green());
+    println!("            Print the value in nanoseconds.");
 }
