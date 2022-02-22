@@ -97,8 +97,8 @@ fn print_version(verbosity: Verbosity) {
     match verbosity {
         Verbosity::Quiet => println!("{}", env!("CARGO_PKG_VERSION")),
         Verbosity::Verbose => println!(
-            "{} version {}",
-            "epoch-get".green(),
+            "{}{}",
+            "epoch-get ".green(),
             env!("CARGO_PKG_VERSION").bold()
         ),
     }
@@ -133,5 +133,4 @@ fn print_help() {
     println!();
     println!("\t{}", "-n, -ns, --nanoseconds".green());
     println!("\t\tPrint the value in nanoseconds.");
-    println!();
 }
