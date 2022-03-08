@@ -1,8 +1,6 @@
 use colored::Colorize;
-use std::{
-    env,
-    time::{SystemTime, UNIX_EPOCH},
-};
+use std::env;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 // How verbose is the output
 enum Verbosity {
@@ -96,11 +94,7 @@ fn print_time(verbosity: Verbosity, mode: Mode) {
 fn print_version(verbosity: Verbosity) {
     match verbosity {
         Verbosity::Quiet => println!("{}", env!("CARGO_PKG_VERSION")),
-        Verbosity::Verbose => println!(
-            "{}{}",
-            "epoch-get ".green(),
-            env!("CARGO_PKG_VERSION")
-        ),
+        Verbosity::Verbose => println!("{}{}", "epoch-get ".green(), env!("CARGO_PKG_VERSION")),
     }
 }
 
