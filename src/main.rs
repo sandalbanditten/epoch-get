@@ -1,5 +1,5 @@
 use colored::Colorize;
-use std::env;
+use std::{env, error};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 // How verbose is the output
@@ -23,7 +23,7 @@ enum Action {
     Version,
 }
 
-fn main() -> Result<(), std::io::Error> {
+fn main() -> Result<(), Box<dyn error::Error>> {
     // Get the args
     let args = env::args();
     // Default to quiet, seconds and printing
